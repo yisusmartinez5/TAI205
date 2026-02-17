@@ -6,7 +6,7 @@ import asyncio
 #2. Inicializacion APP
 app= FastAPI(
     title='Mi primer API',
-    description="Diana Maria Uribe",
+    description="Gael Jesus Martinez Garcia",
     version='1.0.0')
 #BD ficticia
 usuarios=[
