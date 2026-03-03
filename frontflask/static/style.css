@@ -1,0 +1,9 @@
+body { font-family: system-ui, Arial; background:#0b1220; color:#e5e7eb; }
+.container { max-width: 1000px; margin: 40px auto; padding: 20px; }
+table { width:100%; border-collapse: collapse; background:#0f172a; }
+th, td { padding: 10px; border-bottom: 1px solid #243047; vertical-align: top; }
+th { text-align:left; color:#93c5fd; }
+.method { font-weight:700; }
+.path { font-family: ui-monospace, Consolas, monospace; color:#a7f3d0; }
+.hint { margin-top: 16px; color:#9ca3af; }
+code { background:#111827; padding:2px 6px; border-radius:6px; }
