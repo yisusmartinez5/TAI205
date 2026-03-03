@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ title }} - Endpoints</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Endpoints de: {{ title }}</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Método</th>
+          <th>Ruta</th>
+          <th>Resumen</th>
+          <th>Tags</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in endpoints %}
+        <tr>
+          <td class="method">{{ e.method }}</td>
+          <td class="path">{{ e.path }}</td>
+          <td>{{ e.summary }}</td>
+          <td>{{ e.tags }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <p class="hint">
+      Nota: esta lista se genera desde <code>/openapi.json</code> de FastAPI.
+    </p>
+  </div>
+</body>
+</html>
