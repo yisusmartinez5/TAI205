@@ -18,11 +18,11 @@ usuarios=[
     {"id":3, "nombre":"julian", "edad":22},
 ]
 
-#Modelo de validacion Pydantic
+#Modelo de validacion 
 class crear_usuario(BaseModel):
-    id:int
-    nombre:str
-    edad:int
+    id: int = Field( ... ,gt=0, description="Identificador de usuario")
+    nombre: str= Field( ... , min_length=3, max_length=50, example="Juanita")
+    edad: int= Field( ... , ge=1, le=123, description="Edad valida entre 1 y 123")
 
 #3. Endpoints
 @app.get("/", tags=['Inicio'])
@@ -75,7 +75,7 @@ async def crear_usuario(usuario:crear_usuario):
                 status_code=400,
                 detail=" El id ya existe"
             )
-    usuarios.append(usuario)
+    usuarios.append(usuario.dict())
     return{
         "mensaje":"usuario agregado correctamente",
         "status":"200",
