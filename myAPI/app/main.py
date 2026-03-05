@@ -1,8 +1,10 @@
 ﻿#1. Importaciones
-from fastapi import FastAPI,status,HTTPException
+from fastapi import FastAPI,status,HTTPException, Depends
 from typing import Optional
 import asyncio
 from pydantic import BaseModel,Field
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+import secrets
 
 #2. Inicializacion APP
 app= FastAPI(
@@ -23,6 +25,22 @@ class crear_usuario(BaseModel):
     id: int = Field( ... ,gt=0, description="Identificador de usuario")
     nombre: str= Field( ... , min_length=3, max_length=50, example="Juanita")
     edad: int= Field( ... , ge=1, le=123, description="Edad valida entre 1 y 123")
+
+
+# seguridad
+seguridad = HTTPBasic()
+
+def verificar_peticion(credenciales:HTTPBasicCredentials=Depends(seguridad)):
+    userAuth= secrets.compare_digest(credenciales.username,"jesusmartinez")
+    passAuth= secrets.compare_digest(credenciales.password,"123456")
+
+    if not (userAuth and passAuth ):
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail= "credenciales no autorizadas"
+        )
+    return credenciales.username
+
 
 #3. Endpoints
 @app.get("/", tags=['Inicio'])
@@ -98,12 +116,12 @@ async def actualizar_usuario(id: int, usuario_actualizado: dict):
     raise HTTPException(status_code=404, detail="Usuario no encontrado")
 
 @app.delete("/v1/usuarios/{id}", tags=['CRUD HTTP'])
-async def eliminar_usuario(id: int):
+async def eliminar_usuario(id: int, userAuth:str=Depends(verificar_peticion)):
     for usr in usuarios:
         if usr["id"] == id:
             usuarios.remove(usr)
             return {
-                "mensaje": "Usuario eliminado correctamente",
+                "mensaje": f"Usuario eliminado correctamente por {userAuth}",
                 "status": "200",
                 "usuario_eliminado": usr
             }
