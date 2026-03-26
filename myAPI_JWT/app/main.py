@@ -44,7 +44,7 @@ class Token(BaseModel):
     token_type: str
 
 # 6. configuracion jwt
-SECRET_KEY = "mi_clave_super_secreta_para_jwt_2026"
+SECRET_KEY = "contraseña"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
